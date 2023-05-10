@@ -55,8 +55,8 @@ class Time():
 
     def collection(self) -> str:
         """Return a string combining total runtime and split time."""
-        return (f"{self.runtime()}\n"
-                f"{self.elapsed()}\n"
+        return (f"{self.elapsed()}\n"
+                f"{self.runtime()}\n"
                 f"{self.line()}")
 
 
