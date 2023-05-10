@@ -1,5 +1,4 @@
 import pandas as pd
-import random
 from load import Time, load_years
 
 if __name__ == "__main__":
