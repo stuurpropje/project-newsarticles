@@ -9,20 +9,24 @@ import spacy
 import os
 import subprocess
 import math
-from df_text_cleaning import df_apply
 from concurrent.futures import ProcessPoolExecutor
 from nltk.corpus import stopwords
-from load import Time
-from load import load_years
+from load import Time, load_years
 
 
 def pool_executable(df_slice: pd.DataFrame):
-    df_apply(df_slice, 'article', lambda x: lemmafier(x))
-    df_slice.to_csv(
-            f"../csv/{year}_02.csv",
-            mode='a',
-            header=not os.path.exists(f'../csv/{year}_02.csv'),
-            index=False)
+    df_slice['article'] = df_slice['article'].apply(lambda x: lemmafier(x))
+    df_slice.to_csv(f"../csv/{year}_03.csv",
+                    mode='a',
+                    header=not os.path.exists(f'../csv/{year}_03.csv'),
+                    index=False,
+                    encoding='UTF-8')
+
+    print(f"Wrote {df_slice.index} to ../csv/{year}_03.csv.\n"
+          f'{df_slice.index[0]}/{df.shape[0]} '
+          f'{math.floor(df_slice.index[0] / df.shape[0] * 100)}% '
+          f'{t.runtime()}              ')
+    print("\033[F"*3)
 
 
 def lemmafier(text: str) -> str:
@@ -44,9 +48,10 @@ def file_pointer(ver: str) -> int:
         [0]) if os.path.exists(f'../csv/{year}{ver}.csv') else 0
 
 
-def df_slice_gen(seq, chunk: int):
-    slices = [(i, seq[i: i + chunk][-1]) for i in range(0, len(seq), chunk)]
-    return [df[i[0]:i[1]] for i in slices]
+def df_slice_gen(full_seq, chunk: int):
+    remaining_seq = range(row, df.shape[0], chunk)
+    slice = [(i, full_seq[i - row:i + chunk - row][-1]) for i in remaining_seq]
+    return [df.iloc[i[0]:i[1]] for i in slice]
 
 
 if __name__ == "__main__":
@@ -57,33 +62,32 @@ if __name__ == "__main__":
     years = ['test']
     # years: list[int] = load_years("years.txt")
     for year in years:
-        with open('progress_tracker.txt', 'a+') as file:
-            progress = [marked.strip('\n') for marked in file]
+        # Skip finished files.
+        if os.path.exists('progress_tracker.txt'):
+            with open('progress_tracker.txt', 'r') as file:
+                progress = [date.strip('\n') for date in file]
 
         if year in progress:
-            print(f'{year}_01.csv already completed, skipping...')
+            print(f'{year}_02.csv already completed, skipping...')
             continue
 
-        print(f'Loading {year}_01.csv...')
-        df: pd.DataFrame = pd.read_csv(f'../csv/{year}_01.csv')
-        print(f'File loaded. {t.elapsed()}\n{t.line()}')
+        print(f'Loading {year}_02.csv...', end='\r')
+        df: pd.DataFrame = pd.read_csv(f'../csv/{year}_02.csv',
+                                       encoding='UTF-8')
+        print(f'{year}_02.csv loaded. {t.elapsed()}\n{t.line()}')
 
-        print('Lemmifying text...')
-        chunk = 1000
-        row: int = file_pointer('_02')
-        while row < df.shape[0]:
-            with ProcessPoolExecutor() as exe:
-                exe.map(pool_executable, df_slice_gen([i for i in range(row, df.shape[0])], chunk))
+        print(f'Lemmifying articles in {year}_02.csv')
+        chunk = 10
+        row: int = file_pointer('_03')
+        seq: list[int] = [i for i in range(row, df.shape[0])]
+        slice_indexes = df_slice_gen(seq, chunk)
+        with ProcessPoolExecutor() as exe:
+            exe.map(pool_executable, slice_indexes)
 
-            print(
-                f'{row}/{df.shape[0]} '
-                f'{math.floor(row / df.shape[0] * 100)}% '
-                f'{t.runtime()}',
-                end='\r')
-            row += chunk
+        print(f"\n{t.collection()}")
 
-        print(t.collection())
-
-        with open('progress_tracker.txt', 'a') as file:
+        # Write finished csv year to text.
+        with open('progress_tracker.txt', 'a+') as file:
             file.write(f'{year}\n')
+
     print("Succes!")

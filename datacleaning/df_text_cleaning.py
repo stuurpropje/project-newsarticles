@@ -35,8 +35,8 @@ def remove_stopwords(text: str) -> str:
     Returns:
         str: text without stopwords.
     """
-    filler: list[str] = stopwords.words('english')
-    return (' '.join([word for word in text.split() if word not in filler]))
+    filler: list[str] = stopwords.words("english")
+    return " ".join([word for word in text.split() if word not in filler])
 
 
 def remove_punctuation(text: str) -> str:
@@ -48,9 +48,8 @@ def remove_punctuation(text: str) -> str:
     Returns:
         str: text without punctuation.
     """
-    punctuation: str = string.punctuation
-    punctuation += '“”—”’1234567890'
-    return text.translate(str.maketrans('', '', punctuation))
+    additional_punct: str = string.punctuation + '"“‘—’”"'
+    return text.translate(str.maketrans("", "", additional_punct))
 
 
 if __name__ == "__main__":
@@ -59,38 +58,46 @@ if __name__ == "__main__":
 
     years = load_years("years.txt")
     for year in years:
-        print(f'Loading {year}.csv...')
-        df = pd.read_csv(f'{year}.csv')
-        print(t.elapsed())
+        print(f"Loading {year}.csv...", end='\r')
+        df = pd.read_csv(f"../csv/{year}.csv", encoding="UTF-8")
+        print(f"Loaded {year}.csv. {t.elapsed()}")
 
-        df.dropna(subset=['article'], inplace=True)
+        df.dropna(subset=["article"], inplace=True)
 
-        print('Casting articles to lowercase...')
-        df_apply(df, 'article', lambda x: x.lower())
-        print(t.collection())
+        print("Casting articles to lowercase...")
+        df_apply(df, "article", lambda x: x.lower())
+        print(f"All articles cast to lowercase. {t.collection()}")
 
-        print('Removing commas from titles...')
+        print("Removing commas from titles...")
         df_apply(
-            df, 'title', lambda x: x.translate(str.maketrans('', '', ','))
-            if isinstance(x, str) else x)
-        print(t.collection())
+            df,
+            "title",
+            lambda x: x.translate(str.maketrans("", "", ","))
+            if isinstance(x, str)
+            else x,
+        )
+        print(f"All commas removes from titles. {t.collection()}")
 
-        print('Removing commas from author names...')
+        print("Removing commas from author names...")
         df_apply(
-            df, 'author', lambda x: x.translate(str.maketrans('', '', ','))
-            if isinstance(x, str) else x)
-        print(t.collection())
+            df,
+            "author",
+            lambda x: x.translate(str.maketrans("", "", ","))
+            if isinstance(x, str)
+            else x,
+        )
+        print(f"All commas removed from author names. {t.collection()}")
 
-        print('Removing punctuation from articles...')
-        df_apply(df, 'article', lambda x: remove_punctuation(x))
-        print(t.collection())
+        print("Removing punctuation from articles...")
+        df_apply(df, "article", lambda x: remove_punctuation(x))
+        print(f"All punctuation removed. {t.collection()}", end="\r")
 
-        print('Removing filler words from articles...')
-        df_apply(df, 'article', lambda x: remove_stopwords(x))
-        print(t.collection())
+        print("Removing filler words from articles...")
+        df_apply(df, "article", lambda x: remove_stopwords(x))
+        print(f"All filler words removed from articles. {t.collection()}")
 
-        print(f'Writing dataframe to {year}_01.csv...')
-        df.to_csv(f"{year}_01.csv", index=False)
-        print(t.collection())
+        print(f"Writing dataframe to {year}_01.csv...", end='\r')
+        df.to_csv(f"../csv/{year}_01.csv", index=False, encoding='UTF-8')
+        print(f"Cleaned dataframe written to {year}_01.csv. {t.collection()}")
 
     print("Succesfully cleaned all csv files!")
