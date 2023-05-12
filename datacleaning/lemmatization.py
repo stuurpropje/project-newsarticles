@@ -8,7 +8,6 @@ import pandas as pd
 import spacy
 import os
 import subprocess
-import math
 from concurrent.futures import ProcessPoolExecutor
 from nltk.corpus import stopwords
 from load import Time, load_years
@@ -21,10 +20,10 @@ def pool_executable(df_slice: pd.DataFrame):
                     header=not os.path.exists(f'../csv/{year}_03.csv'),
                     index=False,
                     encoding='UTF-8')
-
+    sli = pd.to_numeric(df_slice.index[0])
     print(f"Wrote {df_slice.index} to ../csv/{year}_03.csv.\n"
-          f'{df_slice.index[0]}/{df.shape[0]} '
-          f'{math.floor(df_slice.index[0] / df.shape[0] * 100)}% '
+          f'{df_slice.index[0]} / {df.shape[0]} '
+          f'{sli // df.shape[0] * 100}% '
           f'{t.runtime()}              ')
     print("\033[F"*3)
 
@@ -59,10 +58,11 @@ if __name__ == "__main__":
     print(t.start())
     filler: list[str] = stopwords.words('english')
 
-    years = ['test']
-    # years: list[int] = load_years("years.txt")
+    # years = ['test']
+    years: list[int] = load_years("years.txt")
     for year in years:
         # Skip finished files.
+        progress: list[str] = []
         if os.path.exists('progress_tracker.txt'):
             with open('progress_tracker.txt', 'r') as file:
                 progress = [date.strip('\n') for date in file]
