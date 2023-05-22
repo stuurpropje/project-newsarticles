@@ -17,26 +17,26 @@ NLTK stop word remover
 some other stuff
 
 ## Setup
-This project requires a some installations.
+This project requires some installations.
 
 ### Data cleaning
-'''
+```
 $ python -m spacy download en_core_web_sm
-'''
+
+```
 ### Optimisation
-'''
+```
 $ pip install "modin[all]" # Allows for multi-core dataframe processing
-'''
+```
 ### Topic Modelling
-'''
+```
 $ pip install scispacy
 $ pip install pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.2.4/en_core_sci_lg-0.2.4.tar.gz
 $ pip install sklearn
 $ pip install stop-words
 $ pip install nltk
 $ pip install ipywidgets
-'''
-
+```
 
 ## Data cleaning
 decreasing size of dataframes
