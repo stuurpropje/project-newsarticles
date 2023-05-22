@@ -15,6 +15,7 @@ The purpose of this project is to explore a potential relationship between media
 ## Technologies
 SciSpacy
 * Lemmatizer
+
 NLTK
 * Stop Word Remover
 
