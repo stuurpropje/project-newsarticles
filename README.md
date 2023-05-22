@@ -14,19 +14,19 @@ The purpose of this project is to explore a potential relationship between media
 
 ## Technologies
 SciSpacy
-- Lemmatizer
+- Lemmatizer -
 NLTK
-- Stop Word Remover
+- Stop Word Remover -
 
 ## Setup
 This project requires some installations.
 
-### Data cleaning
+#### Data cleaning
 ```
 $ python -m spacy download en_core_web_sm
 
 ```
-### Topic Modelling
+#### Topic Modelling
 ```
 $ pip install scispacy
 $ pip install pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.2.4/en_core_sci_lg-0.2.4.tar.gz
