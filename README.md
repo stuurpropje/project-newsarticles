@@ -4,7 +4,8 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Data cleaning](#data-cleaning)
-* [Sentiment analysis](#sentiment-analysis)
+* [Topic Modelling](#topic-modelling)
+* [Future Possibilities](#future-posibilities)
 * [Linear regression](#linear-regression)
 * [Sources](#sources)
 
@@ -12,9 +13,10 @@
 The purpose of this project is to explore a potential relationship between media sentiment about companies and their market cap in a ranking.
 
 ## Technologies
-scispacy
-NLTK stop word remover
-some other stuff
+SciSpacy
+- Lemmatizer
+NLTK
+- Stop Word Remover
 
 ## Setup
 This project requires some installations.
@@ -23,10 +25,6 @@ This project requires some installations.
 ```
 $ python -m spacy download en_core_web_sm
 
-```
-### Optimisation
-```
-$ pip install "modin[all]" # Allows for multi-core dataframe processing
 ```
 ### Topic Modelling
 ```
@@ -45,10 +43,13 @@ stop word removing
 ### Topic modelling
 filtering of only relevant articles of the companies
 
-## Sentiment analysis
+## Future Possibilities
+
+### Sentiment analysis
 Scikit-learn sentiment analysis
 
-## Linear regression
+### Linear regression
+Comparison between companies
 
 ## Sources
 This project is based on the dataset created by Andrew Thompson, 2022 (https://components.one/datasets/all-the-news-2-news-articles-dataset/).
