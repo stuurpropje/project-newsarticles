@@ -1,12 +1,15 @@
 """Split large CSV file into smaller files based on the year column.
 
-Additionally contains:
-Time: A class for keeping processing time.
-load: A function for loading a CSV.
-load_years: A function for loading years from a text file.
-write: A function for writing the smaller CSV files.
+Helper functions:
+    Time: A class for keeping processing time.
+    load: A function for loading a CSV.
+    load_years: A function for loading years from a text file.
+    write: A function for writing the smaller CSV files.
 
-Requires: all-the-news-2-1.csv in ../csv/all-the-news-2-1.csv.
+Requires:
+    all-the-news-2-1.csv from Andrew Thompson (2022)
+        link: https://components.one/datasets/all-the-news-2-news-articles-dataset/
+        to be placed in project/csv/all-the-news-2-1.csv.
 """
 import time
 import pandas as pd
@@ -20,8 +23,8 @@ class Time():
     and generating separator lines.
 
     Attributes:
-        _start_time: Start time of the timer in float seconds.
-        _split: Time since last reported split in float seconds.
+        _start_time (float): Start time of the timer in seconds.
+        _split (float): Time since last reported split in seconds.
     """
 
     def __init__(self) -> None:
@@ -30,7 +33,7 @@ class Time():
         self._split: float = 0
 
     def _formatter(self, unformatted_time: float) -> str:
-        """Format the time as Hours:Minutes:Seconds and returns it."""
+        """Format the time as Hours:Minutes:Seconds and return it."""
         return time.strftime("%H:%M:%S", time.gmtime(unformatted_time))
 
     def start(self) -> str:
@@ -61,7 +64,7 @@ class Time():
 
 
 def load_years(dates: str) -> list[int]:
-    """Loads years from a file.
+    """Load years in file.
 
     Args:
         dates (string): location of file containing list of dates to read.
@@ -90,13 +93,13 @@ def load(file: str) -> pd.DataFrame:
 
 
 def write(t: Time, df: pd.DataFrame) -> None:
-    """Split main csv into smaller csvs based on published article dates.
+    """Split primary csv into smaller csvs based on article publishing dates.
 
     Args:
         t (Time): Utility to keep track of loading time.
-        df (pd.DataFrame): main df to be split up according to year column.
+        df (pd.DataFrame): df to be split up according to its year column.
     """
-    years: list[int] = load_years("years.txt")
+    years: list[int] = load_years("../years.txt")
     for year in years:
         df_year = df.loc[year]
         df_year.to_csv(f"../csv/{year}.csv")
@@ -112,4 +115,4 @@ if __name__ == "__main__":
     print(f'Dataframe loaded into memory. {t.elapsed()}')
 
     write(t, df)
-    print("Successfully split all-the-news-2-1 into seperate years.")
+    print("Successfully split all-the-news-2-1.csv into seperate years.")
