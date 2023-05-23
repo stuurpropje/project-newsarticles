@@ -8,6 +8,7 @@ import pandas as pd
 import spacy
 import os
 import subprocess
+import math
 from concurrent.futures import ProcessPoolExecutor
 from nltk.corpus import stopwords
 from load import Time, load_years
@@ -21,11 +22,11 @@ def pool_executable(df_slice: pd.DataFrame):
                     index=False,
                     encoding='UTF-8')
     sli = pd.to_numeric(df_slice.index[0])
-    print(f"Wrote {df_slice.index} to ../csv/{year}_03.csv.\n"
-          f'{df_slice.index[0]} / {df.shape[0]} '
-          f'{sli // df.shape[0] * 100}% '
-          f'{t.runtime()}              ')
-    print("\033[F"*3)
+    print(f"Wrote slice [{df_slice.index[0]}:{df_slice.index[0] + 9}] to ../csv/{year}_03.csv. "
+          f'{df_slice.index[0] + 9} out of {df.shape[0]} articles lemmatized. '
+          f'{math.floor(int(sli) / df.shape[0] * 100)}% done. '
+          f'{t.runtime()}              ', end='\r')
+    # print("\033[F"*3)
 
 
 def lemmafier(text: str) -> str:
@@ -59,7 +60,8 @@ if __name__ == "__main__":
     filler: list[str] = stopwords.words('english')
 
     # years = ['test']
-    years: list[int] = load_years("years.txt")
+    years: list[int] = load_years("../years.txt")
+    years = [2018]
     for year in years:
         # Skip finished files.
         progress: list[str] = []

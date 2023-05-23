@@ -5,7 +5,7 @@ if __name__ == "__main__":
     t = Time()
     print(t.start())
 
-    years = load_years("years.txt")
+    years = load_years("../years.txt")
 
     for year in years:
         print(f"Loading {year}_1.csv...", end='\r')

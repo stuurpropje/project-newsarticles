@@ -36,7 +36,6 @@ $ pip install stop-words
 $ pip install nltk
 $ pip install ipywidgets
 ```
-
 ## Data cleaning
 decreasing size of dataframes
 stop word removing
