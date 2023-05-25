@@ -1,3 +1,4 @@
+"""Take a random sample of 10% from csv files as specified in the years file."""
 import pandas as pd
 from load import Time, load_years
 

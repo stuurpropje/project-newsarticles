@@ -36,7 +36,7 @@ def remove_stopwords(text: str) -> str:
     """Return a text with all stopwords removed.
 
     Args:
-        article (str): text to remove stopwords from.
+        article (str): Text to remove stopwords from.
     """
     filler: list[str] = stopwords.words("english")
     return " ".join([word for word in text.split() if word not in filler])
@@ -46,7 +46,7 @@ def remove_punctuation(text: str) -> str:
     """Return a text with all punctuation removed.
 
     Args:
-        text (str): text to remove punctuation from.
+        text (str): Text to remove punctuation from.
     """
     additional_punct: str = string.punctuation + '"“‘—’”"'
     return text.translate(str.maketrans("", "", additional_punct))
