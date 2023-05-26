@@ -16,29 +16,34 @@ from load import Time, load_years
 
 def pool_executable(df_slice: pd.DataFrame):
     """Convert a group of articles in a dataframe to its lemmatized form.
-     
+
     This function is designed to be run over multiple cores concurrently.
 
      Args:
-     	 df_slice: The slice of the dataframe.
+        df_slice: The slice of the dataframe.
     """
-    
-    df_slice['article'] = df_slice['article'].apply(lambda x: lemmatizer(x))
-    df_slice.to_csv(f"../csv/{year}_03.csv",
-                    mode='a',
-                    header=not os.path.exists(f'../csv/{year}_03.csv'),
-                    index=False,
-                    encoding='UTF-8')
+
+    df_slice["article"] = df_slice["article"].apply(lambda x: lemmatizer(x))
+    df_slice.to_csv(
+        f"../csv/{year}_03.csv",
+        mode="a",
+        header=not os.path.exists(f"../csv/{year}_03.csv"),
+        index=False,
+        encoding="UTF-8",
+    )
     sli: int = pd.to_numeric(df_slice.index[0])
-    print(f"Wrote slice [{df_slice.index[0]}:{sli + 9}] to ../csv/{year}_03.csv. "
-          f'{sli + 9} out of {df.shape[0]} articles lemmatized. '
-          f'{math.floor(int(sli) / df.shape[0] * 100)}% done. '
-          f'{t.runtime()}              ', end='\r')
+    print(
+        f"Wrote slice [{df_slice.index[0]}:{sli + 9}] to ../csv/{year}_03.csv."
+        f" {sli + 9} out of {df.shape[0]} articles lemmatized. "
+        f"{math.floor(int(sli) / df.shape[0] * 100)}% done. "
+        f"{t.runtime()}              ",
+        end="\r",
+    )
 
 
 def lemmatizer(text: str) -> str:
     """Return a given string in its lemmatized form."""
-    nlp = spacy.load("en_core_web_sm", disable=['parser', 'ner'])
+    nlp = spacy.load("en_core_web_sm", disable=["parser", "ner"])
     doc = nlp(text)
     return " ".join([word.lemma_ for word in doc])
 
@@ -51,61 +56,65 @@ def file_pointer(ver: str) -> int:
     Args:
         ver (str): Version of file to read.
     """
-    if os.path.exists(f'../csv/{year}{ver}.csv'):
+    if os.path.exists(f"../csv/{year}{ver}.csv"):
         return int(
-        subprocess.check_output(['wc', '-l', f'../csv/{year}{ver}.csv'
-                                 ]).decode("utf-8").split(' ')
-        [0])
+            subprocess.check_output(["wc", "-l", f"../csv/{year}{ver}.csv"])
+            .decode("utf-8")
+            .split(" ")[0]
+        )
     else:
         return 0
 
 
 def df_slice_gen(full_seq, chunk: int):
     """Slice a dataframe into equal parts.
-     
-     Args:
-     	 full_seq: The unprocessed part of the dataframe to slice.
-     	 chunk: The size of each slice.
-     
-     Returns: 
-     	 A list of dataframe slices.
+
+    Args:
+        full_seq: The unprocessed part of the dataframe to slice.
+        chunk: The size of each slice.
+
+    Returns:
+        A list of dataframe slices.
     """
     remaining_seq = range(row, df.shape[0], chunk)
-    slice = [(i, full_seq[i - row:i + chunk - row][-1]) for i in remaining_seq]
-    return [df.iloc[i[0]:i[1]] for i in slice]
+    slice = [
+        (i, full_seq[i - row : i + chunk - row][-1]) for i in remaining_seq
+    ]
+    return [df.iloc[i[0] : i[1]] for i in slice]
 
 
 if __name__ == "__main__":
     t = Time()
     print(t.start())
-    filler: list[str] = stopwords.words('english')
+    filler: list[str] = stopwords.words("english")
 
     years: list[int] = load_years("../years.txt")
     for year in years:
         # Skip finished files.
         progress: list[str] = []
-        if os.path.exists('progress_tracker.txt'):
-            with open('progress_tracker.txt', 'r') as file:
-                progress = [date.strip('\n') for date in file]
+        if os.path.exists("progress_tracker.txt"):
+            with open("progress_tracker.txt", "r") as file:
+                progress = [date.strip("\n") for date in file]
 
         if year in progress:
-            print(f'{year}_02.csv already completed, skipping...')
+            print(f"{year}_02.csv already completed, skipping...")
             continue
 
-        print(f'Loading {year}_02.csv...', end='\r')
-        df: pd.DataFrame = pd.read_csv(f'../csv/{year}_02.csv',
-                                       encoding='UTF-8')
-        print(f'{year}_02.csv loaded. {t.elapsed()}\n{t.line()}')
+        print(f"Loading {year}_02.csv...", end="\r")
+        df: pd.DataFrame = pd.read_csv(
+            f"../csv/{year}_02.csv", encoding="UTF-8"
+        )
+        print(f"{year}_02.csv loaded. {t.elapsed()}\n{t.line()}")
 
-        print(f'Lemmifying articles in {year}_02.csv')
-        
-        chunk = 10 # Number of articles passed to each core at a time.
+        print(f"Lemmifying articles in {year}_02.csv")
+
+        chunk = 10  # Number of articles passed to each core at a time.
         # Varying starting index allows for the program to be turned off
         # and starting where it was stopped.
-        row: int = file_pointer('_03')
+        row: int = file_pointer("_03")
         seq: list[int] = [i for i in range(row, df.shape[0])]
         slice_indexes = df_slice_gen(seq, chunk)
-        
+
         # Divide the lemmatizer function over all available cores.
         # Cores write their work to a file when finished.
         with ProcessPoolExecutor() as exe:
@@ -113,8 +122,9 @@ if __name__ == "__main__":
 
         print(f"\n{t.collection()}")
 
-        # Save finished years so that they can be skipped on later program activation.
-        with open('progress_tracker.txt', 'a+') as file:
-            file.write(f'{year}\n')
+        # Save finished years so that
+        # they can be skipped on later program activation.
+        with open("progress_tracker.txt", "a+") as file:
+            file.write(f"{year}\n")
 
     print("Succes!")

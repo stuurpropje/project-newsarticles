@@ -1,5 +1,6 @@
 """Remove superfluous information from loaded dataframes.
 
+Converts articles to consist of only lowercase characters.
 Removes commas in names and titles as this causes problems in a csv.
 Removes stop words from articles, other extraenous punctuation.
 
