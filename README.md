@@ -52,21 +52,21 @@ By performing these steps, the project seeks to uncover patterns which form late
 
 To install the required libraries, the following commands are to be executed:
 
-```
-$ python3 -m spacy download en_core_web_sm
-$ pip install nltk
-$ python3 -c "import nltk; nltk.download('stopwords')"
-$ pip install scispacy
-$ pip install pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.2.4/en_core_sci_lg-0.2.4.tar.gz
-$ pip install sklearn
-$ pip install pandas
-$ pip install numpy
-$ pip install matplotlib
-$ pip install ipynb
-$ pip install ipywidgets
-$ pip install iPython
-$ pip install joblib
-$ pip install tqdm
+```bash
+python3 -m spacy download en_core_web_sm
+pip install nltk
+python3 -c "import nltk; nltk.download('stopwords')"
+pip install scispacy
+pip install pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.2.4/en_core_sci_lg-0.2.4.tar.gz
+pip install sklearn
+pip install pandas
+pip install numpy
+pip install matplotlib
+pip install ipynb
+pip install ipywidgets
+pip install iPython
+pip install joblib
+pip install tqdm
 ```
 
 ## Usage
