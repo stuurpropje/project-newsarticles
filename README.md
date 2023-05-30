@@ -19,7 +19,7 @@ This project aims to process the dataset of all-the-news-2-1.csv
 by [Andrew Thompson (2022)](https://components.one/datasets/all-the-news-2-news-articles-dataset/) for textual analysis.
 The process for the textual analysis is performed through several natural language processing (NLP) libraries such as SciSpacy, NLTK or scikitlearn. 
 
-The results of the dataset processing can be found in the Jupyter Notebook file [results.ipynb](#results.ipynb). 
+The results of the dataset processing can be found in the Jupyter Notebook file [results.ipynb](/results.ipynb).
 This notebook provides insights and visualizations of the processing steps performed on the dataset and the results of this processing.
 The results and findings can be used for a better understanding of pre-processing steps for NLP, potential roadblocks and possible solutions.
 
@@ -71,10 +71,10 @@ $ pip install tqdm
 
 ## Usage
 
-1. Download the project files from the [GitHub repository](https://github.com/minprog-platforms/project-stuurpropje/tree/main). Ensure the target directory has the same file structure as the GitHub repository.
+1. Download the project files from the [GitHub repository](https://github.com/minprog-platforms/project-stuurpropje/archive/refs/heads/main.zip). Ensure the target directory maintains the same file structure as the GitHub repository.
 2. Download [all-the-news-2-1.csv](https://components.one/datasets/all-the-news-2-news-articles-dataset/)
     and place it in the csv/ subdirectory.
-3. Pre-processing steps: 
+3. Pre-processing steps
     - Run the load.py module.
     - Run the data_cleaning.py module.
     - Run the random_sample.py module.  
@@ -87,10 +87,9 @@ $ pip install tqdm
         > Warning: This module has a **long** runtime. 10 cores with an average clock speed of 2.1 GHz required 6 hours to finish.
 
         > Note: Due to the long runtime requirements for this module, it is possible to intermittently execute this module. Simply run the module again and it will pick off where it was stopped.
-4. Topic modeling steps:
 
+4. Topic modeling steps
     - Run the vectorizer.py module.
-            
         > Warning: Unlike lemmatization.py, this module does **not** support intermittent execution. Ensure the module can fully complete its work before running it.
         
         > Note: This module has a runtime around 1/4th the runtime requirement of lemmatization.py.  
@@ -102,7 +101,7 @@ $ pip install tqdm
 
 The project follows the following directory structure:
 
-[csv:](#csv) Contains the datafile all-the-news-2-1.csv and all its derivate files.  
+[csv:](csv/) Contains the datafile all-the-news-2-1.csv and all its derivate files.  
 [datacleaning:](datacleaning/) Contains all pre-processing modules up to lemmatization.py.  
 [topicmodeling](topicmodeling/) Contains a secondary csv for vectorized datafiles and the vectorizer.py module.  
 [topicmodeling/csv:](topicmodeling/csv/) Contains the vectorized datafiles, the LDA files and the normalized topic distribution files.
@@ -115,7 +114,7 @@ The processing of the dataset was done through several steps:
 - Utilizing vectorization techniques to convert text data into numerical features.
 - Conducting topic modeling to identify latent themes and topics in the news articles.
 
-For detailed insights and visualizations, refer to the [results.ipynb](#results.ipynb) Jupyter Notebook in the root directory of this repository.
+For detailed insights and visualizations, refer to the [results.ipynb](/results.ipynb) Jupyter Notebook in the root directory of this repository.
 
 ## Acknowledgements
 
