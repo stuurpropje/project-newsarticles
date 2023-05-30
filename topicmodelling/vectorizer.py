@@ -18,8 +18,10 @@ sys.path.append("../datacleaning")
 from load import Time, load_years
 
 
-def loading_animation():
+def running_time():
+    """Prints time to screen every 0. 1 second and stops when finished is set."""
     start_time = time.time()
+    # This function is called by the main loop to check if the job is finished.
     while finished is False:
         clock = time.strftime(
             "%H:%M:%S", time.gmtime(time.time() - start_time)
@@ -53,16 +55,18 @@ if __name__ == "__main__":
 
         print(f"\n{t.collection()}")
 
-        # Write finished vectorized text to file.
+        # Create a directory if one is not available.
         if not os.path.isdir("./csv"):
             os.mkdir("./csv")
 
+        # Write finished vectorized text to file.
         joblib.dump(vectorizer, f"./csv/vectorizer_{year}.csv")
         joblib.dump(data_vectorized, f"./csv/data_vectorized_{year}.csv")
 
+        # finished starts a runtime clock.
         finished = False
         print(f"Fitting LDA for {year}...")
-        thread = threading.Thread(target=loading_animation)
+        thread = threading.Thread(target=running_time)
         thread.start()
         lda.fit(data_vectorized)
         joblib.dump(lda, f"./csv/lda_{year}.csv")

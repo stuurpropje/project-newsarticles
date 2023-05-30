@@ -79,7 +79,7 @@ def load_years(dates: str) -> list[int]:
 
 
 def load(file: str) -> pd.DataFrame:
-    """Loads a CSV file into a pandas DataFrame.
+    """Load a CSV file into a pandas DataFrame.
 
     Args:
         file (str): location of file to be loaded into Dataframe.

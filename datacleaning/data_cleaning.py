@@ -22,7 +22,7 @@ def df_apply(df: pd.DataFrame, column: str, function) -> None:
 
     Allows for a shorter representation of applying a function on a dataframe
     with a progress bar. tqdm.progress_apply does not support
-    in-place modification.
+    in-place modification. By wrapping it, the code becomes more readable.
 
     Args:
         df (pd.DataFrame): DataFrame to be modified

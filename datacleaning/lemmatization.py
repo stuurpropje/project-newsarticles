@@ -18,8 +18,10 @@ def pool_executable(df_slice: pd.DataFrame):
     """Convert a group of articles in a dataframe to its lemmatized form.
 
     This function is designed to be run over multiple cores concurrently.
+    This function gives each core a task. Each core writes to the same output file.
+    As each core writes asynchronously to the file, the order of the original file is lost.
 
-     Args:
+    Args:
         df_slice: The slice of the dataframe.
     """
 
@@ -32,6 +34,7 @@ def pool_executable(df_slice: pd.DataFrame):
         encoding="UTF-8",
     )
     sli: int = pd.to_numeric(df_slice.index[0])
+    # Print function specifies task performed, progress, percentual progress, current runtime.
     print(
         f"Wrote slice [{df_slice.index[0]}:{sli + 9}] to ../csv/{year}_03.csv."
         f" {sli + 9} out of {df.shape[0]} articles lemmatized. "
@@ -49,9 +52,15 @@ def lemmatizer(text: str) -> str:
 
 
 def file_pointer(ver: str) -> int:
-    """Return the highest index value of the file.
+    """Return the highest index value of the active data file to write to.
 
-    Will return 0 if no file exists.
+    Will return 0 if no file exists. This function allows for intermittent
+        execution of lemmatization of data files. Due to the large size of
+        each file and the long processing times, progress is not lost upon
+        program termination. This function finds the highest index value, and
+        assigns that as the point to read and lemmatize out of from its source
+        file. This allows for a varying starting index based on previous
+        progress.
 
     Args:
         ver (str): Version of file to read.
@@ -68,6 +77,13 @@ def file_pointer(ver: str) -> int:
 
 def df_slice_gen(full_seq, chunk: int):
     """Slice a dataframe into equal parts.
+
+    This function slices a dataframe into equal parts which can be divided
+        amongst the available cores. If the dataframe is not sliced,
+        only a singular core can process the dataframe. If the dataframe
+        is divided amongst all available cores, progress cannot be tracked.
+        Each core would have to finish their lemmatization progress before
+        writing their work. This means that intermittent work is not possible.
 
     Args:
         full_seq: The unprocessed part of the dataframe to slice.
