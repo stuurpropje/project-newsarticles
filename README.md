@@ -87,6 +87,7 @@ $ pip install tqdm
         > Warning: This module has a **long** runtime. 10 cores with an average clock speed of 2.1 GHz required 6 hours to finish.
 
         > Note: Due to the long runtime requirements for this module, it is possible to intermittently execute this module. Simply run the module again and it will pick off where it was stopped.
+4. Topic modeling steps:
 
     - Run the vectorizer.py module.
             
@@ -95,7 +96,7 @@ $ pip install tqdm
         > Note: This module has a runtime around 1/4th the runtime requirement of lemmatization.py.  
         
     - Open the topic_modelling.ipynb Jupyter Notebook file and ensure that no errors occur.
-    - Open the results.ipynb Jupyter Notebook file and run it. results.ipynb contains the visualisations and further explanations to modules and functions.
+    - Open the results.ipynb Jupyter Notebook file and run it. results.ipynb contains the visualisations and further explanations to modules and functions. 
 
 ## Project Structure
 
