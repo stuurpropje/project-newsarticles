@@ -1,5 +1,4 @@
-
-# Exploratory Data Analysis of a Large Dataset 
+# Exploratory Data Analysis of a Large Dataset
 
 ## Table of Contents
 
