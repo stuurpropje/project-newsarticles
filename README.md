@@ -101,10 +101,9 @@ $ pip install tqdm
 
 The project follows the following directory structure:
 
-[csv:](csv/) Contains the datafile all-the-news-2-1.csv and all its derivate files.  
+csv: A folder containing the datafile all-the-news-2-1.csv and all its derivate files.  
 [datacleaning:](datacleaning/) Contains all pre-processing modules up to lemmatization.py.  
-[topicmodeling](topicmodeling/) Contains a secondary csv for vectorized datafiles and the vectorizer.py module.  
-[topicmodeling/csv:](topicmodeling/csv/) Contains the vectorized datafiles, the LDA files and the normalized topic distribution files.
+[topicmodeling](topicmodeling/) Contains a secondary csv for vectorized datafiles and the vectorizer.py module.  topicmodeling/csv: A folder containing the vectorized datafiles, the LDA files and the normalized topic distribution files.
 
 ## Project Summary
 
