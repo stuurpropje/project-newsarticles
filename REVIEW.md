@@ -9,91 +9,44 @@ Sabrina, Thom
 
 ## 1. Herhalende call naar stopwords.words("english") binnen remove_stopwords() in de data_cleaning module
 
-## 2. Waarom is finished een boolean die een functie verstopt? Hoe kan je dit verbeteren?
+Het probleem hier is dat de functie remove_stopwords() meerdere keren de lijst met Engelse stopwoorden ophaalt, wat onnodig is en de prestaties kan beïnvloeden.
+Het zorgt er ook voor dat het minder duidelijk is voor een leek wat de stopwords.words("english") functie eigenlijk doet.
+
+Om dit probleem op te lossen, kan je de lijst met Engelse stopwoorden slechts één keer ophalen buiten de functie en deze als een argument aan remove_stopwords() doorgeven. Op deze manier wordt de lijst niet herhaaldelijk opgehaald en verbetert de prestatie van de code.
+
+De prestatie van de functie wordt enigszins verbeterd, maar het ophalen van de lijst buiten de functie kan enige extra complexiteit introduceren in de code.
+De afweging hier is een marginale prestatieverbetering, maar een extra argument die moet worden meegegeven.
+Het is een afweging van prestatieverbetering tegenover complexiteit.
+
+## 2. Waarom is finished in de vectorizer module een boolean die een functie verstopt? Dit is nu heel onduidelijk
+
+Finished wordt gebruikt als stopconditie voor een functie die wordt aangeroepen door middel van thread.start().
+Finished wordt echter doorgegeven als global variabele in plaats van dat deze als functie de threading functie start of stopt. Dit is onduidelijk en verhult het doel van de variabele.
+
+Om dit beter te maken is het mogelijk om finished dus te vervangen door een functie die de threading functie start of stopt.
+Hierdoor wordt het doel van de variabele duidelijker en is de code gemakkelijker begrijpbaar.
+
+De afweging is echter dat het al vrij complex was om de functie aan te roepen en te stoppen omdat de threading.Thread(target=functie) geen argumenten meegeeft aan de functie.
+Het zou dan dus nodig zijn om een volledige wrapper te schrijven die dit beter specificeert. Dit maakt de code wel complexer, en daarmee misschien minder gemakkelijk begrijpbaar.
+
+Een ander alternatief zijn zorgvuldig geschreven comments die toelichten wat de rol van de finished variabele is.
 
 ## 3. Waarom worden functies gedefiniëerd in topic_modeling.ipynb in plaats van deze te importeren uit een module voor de leesbaarheid?
 
-## 4. Als persoon niet bekend met de code die wordt uitgevoerd, waarom heb je voor bepaalde keuzes gekozen?
+Het probleem hier is dat functies direct worden gedefinieerd in het Jupyter Notebook-bestand topic_modeling.ipynb, in plaats van deze uit een aparte module te importeren.
+Dit kan de leesbaarheid van de code verminderen en het moeilijker maken om functies te hergebruiken.
+
+Om dit beter te maken, was het ook mogelijk om het gros van de functies te definiëren in een aparte module en binnen topic_modeling.ipynb enkel de visualisatiefuncties te definiëren.
+Hierdoor wordt de code overzichtelijker en bevordert het de herbruikbaarheid van functies in andere delen van het project.
+
+Door de andere functies in een losse module te plaatsen, wordt de code overzichtelijker en wordt de herbruikbaarheid van functies bevorderd.
+Hierdoor wordt het makkelijker voor bijvoorbeeld results.ipyb om dezelfde functies importeren en gebruiken.
+Dit kan consistentie in de code kan bevorderen door de manier hoe functies worden geimporteerd uit Jupyter Notebooks.
+Bovendien wordt de leesbaarheid van topic_modeling.ipynb verbeterd omdat de focus ligt op enkel de specifieke visualisatiefuncties in plaats van het definiëren van alle functies.
+
+De afweging hier is dat het creëren van weer een aparte module en het importeren van deze functies een extra stap toevoegd met de benodigde organisatie.
+Wanneer er veel functies beheert moeten worden zoals het geval is binnen dit project wordt het dan al snel lastig om consistentie te waarborgen door de toenemende complexiteit. Desalniettemin kan deze extra inspanning kan de moeite waard zijn vanwege de verbeterde leesbaarheid en herbruikbaarheid van de code wanneer importeren kan worden gedaan uit een module in plaats van een Jupyter Notebook.
+
+## 4. Voor iemand die niet bekend is met threading, is het heel onduidelijk wat er precies gebeurd. Wat doe je precies?
 
 ## 5. Het is nog vrij onduidelijk wat er gebeurd in de vectorizer module. Wat gebeurd er bij een LDA?
-
-
-
-
-
-Let bij de punten die je noemt wel op haalbaarheid en let ook op de details. Het mag best veel werk kosten om een verbetering door te zetten, maar het moet wel mogelijk zijn en kloppen.
-
-2.	Datacleaning.py
-Stop words is niet geheel duidelijk voor een leek
-wat zijn stop words?
--	Is een lijst van ongeveer 1000 woorden
-
-Remove_stopwords
--	Filler kan gecached worden zodat deze niet elke keer opnieuw geassigned hoeft te worden
-Nog wel meer comments
-Print statements + comments?
-
-3.	Lemmatizer.py
--	Comment imports?
--	Niet duidelijk hoe CSVs worden geschreven naar een bestand
--	Verklaar de print functie
-o	Wat doet hij
-o	Waar is hij
-o	Hoe ver is hij
-o	Hoe lang is hij bezig?
-Ieder jaar heeft een los csv bestand
-
-Waarom die ik iets?
--	Waarom heb gebruik i de file_pointer functie?
-o	Zodat bij storing het programma door kan gaan waar het was gebleven
--	Waarom doe ik df_slice_gen?
-
-5.	Vectorizer.py
-Wat doet threading?
-Geen docstring loading_animation
-Wat doet lda?
-Waarom is data_vectorized eerst een lege string?
-Comment eventjes thread = threading
-Wat doet joblib.dump?
--	Schrijven van dataframe naar bestand
-Waarom finished = bool?
-Finished kan niet expliciet worden meegegeven
--	Finished is een functie waar je dat ding mee laat lopen
--	Het ziet er nu uit als een variabele dus het is niet duidelijk wat hij doet
-
-6.	Topic_modelling.ipynb
-Picking related articles
--	Wat doet hij nou eigenlijk?
--	Schrijf een summary
-Load_all_years
--	Spelling
-Compare_topic
-
-Waarom importeer ik niet mijn functies?
--	Lol ja lol goede vraag
-
-Geef labels aan x en y as voor recommendation()
-Voeg een .md toe onder welke ID gaat over welk onderwerp?
--	Deze plot gaat over x, wat is x?
--	Of zeggen waar ze de topic lijst kunnen vinden
--	Of allebei
--	Of voeg een dict toe van id = topic
-Voeg toe hoe ze recommendation_widget() kunnen gebruiken
-Wat zegt similarity(0.60)?
-
-7.	Results.ipynb
-Func defs in andere code
-Uitleg bij vergelijking van df.main en de kleine
-Wat haal je hieruit?
-Wat kan je concluderen?
-Meer uitleg bij:
--	Processed and unprocessed data
--	Welke paren horen bij elkaar?
-Kopje erbij van proof of concept afgelopen: hier staat de echte data
-Vectorization and applying a lda on the actual dataset
--	Kopje bij topic wat je doet en wat je ermee kan
--	Interpreteer recommendation() en recommendation_widget()
-
-ìk mis een rode draad door je project. je hebt duidelijk heel veel gedaan aan coderen en je project ziet er indrukwekkend uit. het probleem is dat ik totaal niet kan volgen wat je doet. het toevoegen van een introductie en conclusie zouden erg helpen.
-
-in results.ipynb ga je over al je andere files heen en geef je steeds een korte uitleg. ik mis hier echter waarom je bepaalde dingen doet. het lees meer als een technische handleiding dan een datascience project.
