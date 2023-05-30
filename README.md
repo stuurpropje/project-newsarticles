@@ -9,17 +9,17 @@
 * [Installation](#installation)
 * [Usage](#usage)
 * [Project Structure](#project-structure)
-* [Results Summary](#results-summary)
+* [Project Summary](#project-summary)
 * [Acknowledgements](#acknowledgements)
 * [Contact](#contact)
 
 ## Introduction
 
 This project aims to process the dataset of all-the-news-2-1.csv 
-by [(Andrew Thompson, 2022)](https://components.one/datasets/all-the-news-2-news-articles-dataset/) for textual analysis.
+by [Andrew Thompson (2022)](https://components.one/datasets/all-the-news-2-news-articles-dataset/) for textual analysis.
 The process for the textual analysis is performed through several natural language processing (NLP) libraries such as SciSpacy, NLTK or scikitlearn. 
 
-The results of the dataset processing can be found in the Jupyter Notebook file "results.ipynb". 
+The results of the dataset processing can be found in the Jupyter Notebook file [results.ipynb](#results.ipynb). 
 This notebook provides insights and visualizations of the processing steps performed on the dataset and the results of this processing.
 The results and findings can be used for a better understanding of pre-processing steps for NLP, potential roadblocks and possible solutions.
 
@@ -103,11 +103,11 @@ $ pip install tqdm
 The project follows the following directory structure:
 
 [csv:](#csv) Contains the datafile all-the-news-2-1.csv and all its derivate files.  
-[datacleaning:](#datacleaning) Contains all pre-processing modules up to lemmatization.py.  
-[topicmodeling](#topicmodeling) Contains a secondary csv for vectorized datafiles and the vectorizer.py module.  
-[topicmodeling/csv:](#topicmodeling/csv) Contains the vectorized datafiles, the LDA files and the normalized topic distribution files.
+[datacleaning:](datacleaning/) Contains all pre-processing modules up to lemmatization.py.  
+[topicmodeling](topicmodeling/) Contains a secondary csv for vectorized datafiles and the vectorizer.py module.  
+[topicmodeling/csv:](topicmodeling/csv/) Contains the vectorized datafiles, the LDA files and the normalized topic distribution files.
 
-## Results Summary
+## Project Summary
 
 The processing of the dataset was done through several steps:
 - Removing stop words from articles.
