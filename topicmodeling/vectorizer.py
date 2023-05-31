@@ -63,15 +63,17 @@ if __name__ == "__main__":
         joblib.dump(vectorizer, f"./csv/vectorizer_{year}.csv")
         joblib.dump(data_vectorized, f"./csv/data_vectorized_{year}.csv")
 
-        # finished starts a runtime clock.
-        finished = False
         print(f"Fitting LDA for {year}...")
+        finished = False
+        # finished alongside thread starts a runtime clock which displays
+        #   the current running time to fit the data to the LDA,
+        #   normalize the topic distribution and write them to a file.
         thread = threading.Thread(target=running_time)
         thread.start()
         lda.fit(data_vectorized)
         joblib.dump(lda, f"./csv/lda_{year}.csv")
 
-        print("Discovering distances...")
+        print("Normalising topic distributions...")
         doc_topic_dist = pd.DataFrame(lda.transform(data_vectorized))
         joblib.dump(doc_topic_dist, f"./csv/doc_topic_dist_{year}.csv")
         finished = True

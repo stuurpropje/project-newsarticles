@@ -89,7 +89,7 @@ pip install tqdm
 
 4. Topic modeling steps
     - Run the vectorizer.py module.
-        > Warning: Unlike lemmatization.py, this module does **not** support intermittent execution. Ensure the module can fully complete its work before running it.
+        > <p class="warning"> Warning: Unlike lemmatization.py, this module does **not** support intermittent execution. Ensure the module can fully complete its work before running it. </p>
         
         > Note: This module has a runtime around 1/4th the runtime requirement of lemmatization.py.  
         
@@ -126,5 +126,6 @@ The code in this project is based on the code written by [Daniel Wolfram (2022)]
 
 For any inquiries or feedback, please contact me, Niels, at niels.huang@student.uva.nl.
 
-
-
+<style>
+.warning {border-left: 5px solid red}
+</style>

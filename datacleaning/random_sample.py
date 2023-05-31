@@ -9,9 +9,9 @@ if __name__ == "__main__":
     years = load_years("../years.txt")
 
     for year in years:
-        print(f"Loading {year}_1.csv...", end='\r')
+        print(f"Loading {year}_01.csv...", end='\r')
         df = pd.read_csv(f"../csv/{year}_01.csv", encoding='UTF-8')
-        print(f"Loaded {year}_1.csv. {t.elapsed()}")
+        print(f"Loaded {year}_01.csv. {t.elapsed()}")
 
         print("Sampling 10%...", end='\r')
         df = df.sample(frac=0.10, axis=0, ignore_index=True)

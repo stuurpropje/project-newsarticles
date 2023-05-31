@@ -75,7 +75,7 @@ def file_pointer(ver: str) -> int:
         return 0
 
 
-def df_slice_gen(full_seq, chunk: int):
+def df_slice_gen(full_seq, chunk: int) -> list[pd.DataFrame]:
     """Slice a dataframe into equal parts.
 
     This function slices a dataframe into equal parts which can be divided
@@ -102,7 +102,6 @@ def df_slice_gen(full_seq, chunk: int):
 if __name__ == "__main__":
     t = Time()
     print(t.start())
-    filler: list[str] = stopwords.words("english")
 
     years: list[int] = load_years("../years.txt")
     for year in years:
@@ -124,12 +123,13 @@ if __name__ == "__main__":
 
         print(f"Lemmifying articles in {year}_02.csv")
 
-        chunk = 10  # Number of articles passed to each core at a time.
         # Varying starting index allows for the program to be turned off
-        # and starting where it was stopped.
+        #   and starting where it was stopped.
         row: int = file_pointer("_03")
         seq: list[int] = [i for i in range(row, df.shape[0])]
-        slice_indexes = df_slice_gen(seq, chunk)
+
+        chunk = 10  # Number of articles passed to each core at a time.
+        slice_indexes: list[pd.DataFrame] = df_slice_gen(seq, chunk)
 
         # Divide the lemmatizer function over all available cores.
         # Cores write their work to a file when finished.
@@ -139,7 +139,7 @@ if __name__ == "__main__":
         print(f"\n{t.collection()}")
 
         # Save finished years so that
-        # they can be skipped on later program activation.
+        #   they can be skipped on later program activation.
         with open("progress_tracker.txt", "a+") as file:
             file.write(f"{year}\n")
 
