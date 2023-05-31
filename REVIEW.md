@@ -1,11 +1,6 @@
 # Uitwerking van code review
 
-Sabrina, Duco
-
-    Wat is het tegengekomen probleem?
-    Hoe zou je dit beter kunnen maken?
-    Wat voor afweging maak je? Vaak is een keuze voor iets ook een keuze tegen iets anders.
-    Illustreer met enkele voorbeelden.
+Studenten die de code review hebben uitgevoerd: Sabrina, Duco
 
 ## 1. Herhalend stopwords.words("english") binnen remove_stopwords() in de data_cleaning module aanroepen
 
@@ -40,62 +35,80 @@ Duidelijker zou zijn om finished, running_time en thread te combineren in een wr
 Hieruit kan de relatie tussen de drie beter worden bepaald. 
 Het doel van de variabele duidelijker en is de code gemakkelijker begrijpbaar.
 
-De afweging is dat het al vrij complex was om de functie aan te roepen en te stoppen omdat geen argumenten meegegeven kunnen worden aan running_time. Een wrapper functie die het bundelt maakt het misschien wel duidelijker binnen zichzelf door finished te compartimenteren, maar in de main wordt het juist minder duidelijk omdat deze wrapper functie veel takenop zich neemt. 
+De afweging is dat het al vrij complex was om de functie aan te roepen en te stoppen omdat geen argumenten meegegeven kunnen worden aan running_time. Een wrapper functie die het bundelt maakt het misschien wel duidelijker binnen zichzelf door finished te compartimenteren, maar in de main wordt het juist minder duidelijk omdat deze wrapper functie veel takenop zich neemt.
 
 In plaats van de de code in de main op deze manier:
-![screenshot of implementation](/screenshots/running_time%20threading%20function.png)
+
+![screenshot van huidige implementatie](/screenshots/running_time%20threading%20function.png)
 
 Kan ook het volgende worden gedaan:
 ```python3
-def lda_fitting_and_normalizing(lda, data_vectorized):
-    content of 
+def lda_fitting_and_normalizing(lda: pd.Dataframe, data_vectorized: pd.Dataframe) -> None:
+    inhoud van screenshot
 ```
 
 ## 3. Waarom worden functies gedefiniëerd in topic_modeling.ipynb in plaats van deze te importeren?
 
-Het probleem hier is dat functies direct worden gedefinieerd in het Jupyter Notebook-bestand topic_modeling.ipynb, in plaats van deze uit een aparte module te importeren.
-Dit kan de leesbaarheid van de code verminderen en het moeilijker maken om functies te hergebruiken.
+Functies worden direct gedefiniëerd in het Jupyter Notebook-bestand topic_modeling.ipynb, in plaats van deze uit een aparte module te importeren.
+Dit vermindert de leesbaarheid van de de notebook en maakt het moeilijker om functies hieruit te importeren.
+```
+from ipynb.fs.def.notebook_name import x, y
+```
+De bovenstaande regel importeert namelijk wel de functies, maar geeft maar een partiële import zoals hieronder is te zien.
 
-Om dit beter te maken, was het ook mogelijk om het gros van de functies te definiëren in een aparte module en binnen topic_modeling.ipynb enkel de visualisatiefuncties te definiëren.
+![notebook function import](/screenshots/notebook_function_import.png)
+
+Om dit beter te maken is het beter om het gros van de functies te definiëren in een aparte module en binnen topic_modeling.ipynb enkel de visualisatiefuncties te definiëren.
 Hierdoor wordt de code overzichtelijker en bevordert het de herbruikbaarheid van functies in andere delen van het project.
 
 Door de andere functies in een losse module te plaatsen, wordt de code overzichtelijker en wordt de herbruikbaarheid van functies bevorderd.
-Hierdoor wordt het makkelijker voor bijvoorbeeld results.ipyb om dezelfde functies importeren en gebruiken.
-Dit kan consistentie in de code kan bevorderen door de manier hoe functies worden geimporteerd uit Jupyter Notebooks.
-Bovendien wordt de leesbaarheid van topic_modeling.ipynb verbeterd omdat de focus ligt op enkel de specifieke visualisatiefuncties in plaats van het definiëren van alle functies.
+Ook de functies die worden definiëerd in results.ipynb kunnen dan gemakkelijk worden geplaatst in deze nieuwe module.  Results.ipynb wordt hierdoor aanzienlijk leesbaarder. Ook is hergebruik van functies gemakkelijker, omdat de link tussen een module en een geimporteerde module in een oopslag duidelijk kan zijn.
 
-De afweging hier is dat het creëren van weer een aparte module en het importeren van deze functies een extra stap toevoegd met de benodigde organisatie.
-Wanneer er veel functies beheert moeten worden zoals het geval is binnen dit project wordt het dan al snel lastig om consistentie te waarborgen door de toenemende complexiteit. Desalniettemin kan deze extra inspanning kan de moeite waard zijn vanwege de verbeterde leesbaarheid en herbruikbaarheid van de code wanneer importeren kan worden gedaan uit een module in plaats van een Jupyter Notebook.
+![proper function import](/screenshots/proper_func_import.png)
 
-## 4. Voor iemand die niet bekend is met threading, is het heel onduidelijk wat er precies gebeurd. Wat doe je precies?
+Een bijkomend positief effect is dat dee leesbaarheid van topic_modeling.ipynb wordt verbeterd omdat de focus ligt op enkel de specifieke visualisatiefuncties in plaats van het definiëren van alle functies.
 
-## 5. Het is nog vrij onduidelijk wat er gebeurd in de vectorizer module. Wat gebeurd er bij een LDA?
+De afweging hier is dat het creëren van weer een aparte module en het importeren van deze functies een extra stap toevoegd met de benodigde organisatie van alle functies en de folderstructuren.
+Wanneer er veel functies beheert moeten worden zoals het geval is binnen dit project wordt het dan al snel lastig om consistentie te waarborgen door de toenemende complexiteit. 
+Een kleine aanpassing (zoals het hernoemen van een folder) kan dan al snel veel imports laten crashen. Desalniettemin kan deze extra inspanning kan de moeite waard zijn vanwege de verbeterde leesbaarheid en herbruikbaarheid van de code wanneer importeren kan worden gedaan uit een module in plaats van een Jupyter Notebook.
 
+## 4. Waarom worden csv bestanden 2016, 2016_01, 2016_02, etc. genoemd?
 
-Load.py:
-TimeSeries
-Extra print tussen load en write?
-Je kan proberen een inschatting maken van hoe lang het laden duurt
+Het probleem hierbij is dat het niet duidelijk is wat de verschillen tussen deze bestanden eigenlijk zijn.
+Een mogelijke oplossing zou zijn om ze een meer descriptieve suffix te geven. 
+Zo kan 2016 2016_raw worden genoemd, 2016_01 worden hernoemd naar 2016_cleaned, 2016_02 naar 2016_sampled, 2016_03 naar 2016_lemmatized, etc. 
+De extra folderstructuur binnen /topicmodeling/csv is dan ook overbodig, omdat deze dan op dezelfde manier benoemd kunnen worden.
 
-Define main ipv if name == main
-Je zie dan meteen het allerbelangrijkste
-Ipv naar beneden te moeten scrollen
-Data_cleaning.py
-Je kan 1 functie maken van voor elke set van data_cleaning.py manipulatie zodat het in 1x duidelijk
-is wat elk blok van df_apply doet
-Random_sample.py
-Elk van de 3 blokjes kan weer in elke losse functies voor de duidelijk
-Waarom hele tijd _01 etc?
-Je kan ze beter direct een naam geven
-Raw, processed, sampled, lemmatized, vectorized
+Een grote afweging hierbij is dat de hierarchie van stappen niet meer in een oogopslag duidelijk is. 
+Waar het eerst logisch is dat 2016_03 voortkomt uit het verwerken van 2016_02, is dit nu niet meer het geval. Wanneer nieuwe tussenstappen genomen moeten geworden (zoals een extra stap tussen data_cleaning en lemmatization waar emojis worden geconverteerd naar tekst bijvoorbeeld) is niet meer te zien dat 2016_emojified tussen 2016_cleaned en 2016_sampled hoort te staan. 
 
-Lemmatization.py
-Meer info bij de funcdef
-Wat is filler eigenlijk? Licht dit toe
+In het geval van numerieke identificators kunnen de opvolgende getallen eenvoudig worden opgehoogd. 2016_01 (cleaned), 2016_02 (emojified), 2016_03 (sampled) geven dan nog steeds een duidelijke hierarchie aan.
 
-Finished starts a runtime clock on a separate thread
-Waarom 50 topics voor LDA?
+Een mogelijkheid is om binnen deze folder een README.md toe te voegen de kort elke achtervoegsel toelicht.
 
-Topic_modeling.ipynb
-- Seeding article
-- Recommended article
+Een andere optie is het combineren van een descriptieve toelichting met het identificatiegetal.
+Dit zou 2016_cleaned_01 opleveren maar resulteert ook weer in andere onduidelijkheid. 
+Als er een 2016_cleaned_01, en daarna een 2016_sampled_02 lijkt het alsof  2016_sampled_01 ontbreekt.
+
+## 5. Het hoofddoel van elke module is het runnen van de functies binnen de modules.
+
+Opvallend is dat het nodig is binnen elke module om omlaag te scrollen om te kijken wat de module eigenlijk doet.
+De andere functie definities staan dan eigenlijk 'in de weg'.
+Dit kan worden opgelost door alle code in een een eigen functie bovenaan te zetten, en deze in de main aan te roepen. Dit zou er dan als volgt uitzien
+
+```python3
+def main():
+    code in main
+
+...
+
+if __name__ == "__main__":
+    main()
+```
+
+Voor een lezer van de module is het dan direct mogelijk om te zien wat de module precies uitvoert wanneer ze deze openen.
+
+Een afweging hier is dat sommige modules veel functies bevatten die worden gebruikt in andere modules, zoals de Time class in de load module, of de load_years functie.
+In deze gevallen zijn deze interessanter dan de main omdat men vaker hiernaar zal kijken, maar vaak maar een maal naar de main.
+Voor de load module zou dit dus niet heel logisch zijn om te doen, maar de lemmatizer module bijvoorbeeld wel.
+Men kan dan simpelweg omlaag scrollen om te kijken wat elke functie specifiek uitvoert.
