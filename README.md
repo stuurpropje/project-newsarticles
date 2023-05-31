@@ -79,11 +79,11 @@ pip install tqdm
     - Run the random_sample.py module.  
         > Note: If you'd like to use the entire dataset, change the sample size argument to 1.0. This means no sample is taken. Other sample sizes are of course also possible.  
         
-        > Warning: The following modules are very processing-power and time intensive. Taking a random sample allows for faster file processing.
+        > <p class="warning"> Warning: The following modules are very processing-power and time intensive. Taking a random sample allows for faster file processing. </p>
 
     - Run the lemmatization.py module.
 
-        > Warning: This module has a **long** runtime. 10 cores with an average clock speed of 2.1 GHz required 6 hours to finish.
+        > <p class="warning"> Warning: This module has a **long** runtime. 10 cores with an average clock speed of 2.1 GHz required 6 hours to finish. </p>
 
         > Note: Due to the long runtime requirements for this module, it is possible to intermittently execute this module. Simply run the module again and it will pick off where it was stopped.
 
@@ -127,5 +127,5 @@ The code in this project is based on the code written by [Daniel Wolfram (2022)]
 For any inquiries or feedback, please contact me, Niels, at niels.huang@student.uva.nl.
 
 <style>
-.warning {border-left: 5px solid red}
+.warning {margin: 20px 0; padding-left: 1.5rem; border-left: 5px solid #a90505}
 </style>
