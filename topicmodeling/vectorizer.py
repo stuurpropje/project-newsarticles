@@ -19,7 +19,7 @@ from load import Time, load_years
 
 
 def running_time():
-    """Prints time to screen every 0. 1 second, stops when finished is set."""
+    """Print time to screen every 0. 1 second, stops when finished is set."""
     start_time = time.time()
     # This function is called by the main loop to check if the job is finished.
     while finished is False:

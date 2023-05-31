@@ -10,7 +10,6 @@ import os
 import subprocess
 import math
 from concurrent.futures import ProcessPoolExecutor
-from nltk.corpus import stopwords
 from load import Time, load_years
 
 
@@ -18,8 +17,10 @@ def pool_executable(df_slice: pd.DataFrame):
     """Convert a group of articles in a dataframe to its lemmatized form.
 
     This function is designed to be run over multiple cores concurrently.
-    This function gives each core a task. Each core writes to the same output file.
-    As each core writes asynchronously to the file, the order of the original file is lost.
+    This function gives each core a task.
+    Each core writes to the same output file.
+    As each core writes asynchronously to the file,
+        the order of the original file is lost.
 
     Args:
         df_slice: The slice of the dataframe.
@@ -33,8 +34,9 @@ def pool_executable(df_slice: pd.DataFrame):
         index=False,
         encoding="UTF-8",
     )
-    sli: int = pd.to_numeric(df_slice.index[0])
-    # Print function specifies task performed, progress, percentual progress, current runtime.
+    sli: float = pd.to_numeric(df_slice.index[0])
+    # Print task performed by assigned core, progress,
+    #   percentual progress and current runtime.
     print(
         f"Wrote slice [{df_slice.index[0]}:{sli + 9}] to ../csv/{year}_03.csv."
         f" {sli + 9} out of {df.shape[0]} articles lemmatized. "

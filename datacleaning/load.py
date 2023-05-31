@@ -8,14 +8,14 @@ Helper functions:
 
 Requires:
     all-the-news-2-1.csv from Andrew Thompson (2022)
-        link: https://components.one/datasets/all-the-news-2-news-articles-dataset/
+        https://components.one/datasets/all-the-news-2-news-articles-dataset/
         to be placed in project/csv/all-the-news-2-1.csv.
 """
 import time
 import pandas as pd
 
 
-class Time():
+class Time:
     """Utility class for measuring time intervals.
 
     This class provides methods for measuring elapsed time intervals,
@@ -38,29 +38,30 @@ class Time():
 
     def start(self) -> str:
         """Return a string of start time (H:M:S)."""
-        return f'Start time: {self._formatter(self._start_time)}'
+        return f"Start time: {self._formatter(self._start_time)}"
 
     def runtime(self) -> str:
         """Return a string (H:M:S) of total runtime."""
         total_runtime: float = time.time() - self._start_time
-        return f'Total runtime: {self._formatter(total_runtime)}'
+        return f"Total runtime: {self._formatter(total_runtime)}"
 
     def elapsed(self) -> str:
         """Return a string (H:M:S) of time since last elapsed time."""
-        elapsed_time: float = (time.time() - self._start_time if self._split
-                               == 0 else time.time() - self._split)
+        elapsed_time: float = (
+            time.time() - self._start_time
+            if self._split == 0
+            else time.time() - self._split
+        )
         self._split = time.time()
-        return f'Time since last update: {self._formatter(elapsed_time)}'
+        return f"Time since last update: {self._formatter(elapsed_time)}"
 
     def line(self) -> str:
         """Return a seperator line."""
-        return '--------------------------------------'
+        return "--------------------------------------"
 
     def collection(self) -> str:
         """Return a string combining total runtime and split time."""
-        return (f"{self.elapsed()}\n"
-                f"{self.runtime()}\n"
-                f"{self.line()}")
+        return f"{self.elapsed()}\n" f"{self.runtime()}\n" f"{self.line()}"
 
 
 def load_years(dates: str) -> list[int]:
@@ -73,8 +74,8 @@ def load_years(dates: str) -> list[int]:
     Returns:
         list[int]: containing dates from the file.
     """
-    with open(dates, 'r') as file:
-        years: list[int] = [int(year.strip('\n')) for year in file]
+    with open(dates, "r") as file:
+        years: list[int] = [int(year.strip("\n")) for year in file]
     return years
 
 
@@ -88,7 +89,7 @@ def load(file: str) -> pd.DataFrame:
         pd.DataFrame: Dataframe from csv file.
     """
     df: pd.DataFrame = pd.read_csv(file)
-    df = df.set_index('year')
+    df = df.set_index("year")
     return df
 
 
@@ -103,7 +104,7 @@ def write(t: Time, df: pd.DataFrame) -> None:
     for year in years:
         df_year = df.loc[year]
         df_year.to_csv(f"../csv/{year}.csv")
-        print(f'All articles of {year} written to {year}.csv!')
+        print(f"All articles of {year} written to {year}.csv!")
         print(t.collection())
 
 
@@ -112,7 +113,7 @@ if __name__ == "__main__":
     print(t.start())
 
     df: pd.DataFrame = load("../csv/all-the-news-2-1.csv")
-    print(f'Dataframe loaded into memory. {t.elapsed()}')
+    print(f"Dataframe loaded into memory. {t.elapsed()}")
 
     write(t, df)
     print("Successfully split all-the-news-2-1.csv into seperate years.")

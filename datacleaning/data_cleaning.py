@@ -16,9 +16,11 @@ from nltk.corpus import stopwords
 from load import Time
 from load import load_years
 
+tqdm.pandas()
+
 
 def df_apply(df: pd.DataFrame, column: str, function) -> None:
-    """Wrapper for in-place applying on a DataFrame.
+    """Wrapper to apply a function in place on a DataFrame.
 
     Allows for a shorter representation of applying a function on a dataframe
     with a progress bar. tqdm.progress_apply does not support
@@ -29,7 +31,6 @@ def df_apply(df: pd.DataFrame, column: str, function) -> None:
         column (str): Column to be modified.
         function (str): Function to apply to column.
     """
-    tqdm.pandas()
     df[column] = df[column].progress_apply(function)
 
 
@@ -37,7 +38,7 @@ def remove_stopwords(text: str) -> str:
     """Return a text with all stopwords removed.
 
     Args:
-        article (str): Text to remove stopwords from.
+        text (str): Text to remove stopwords from.
     """
     filler: list[str] = stopwords.words("english")
     return " ".join([word for word in text.split() if word not in filler])
@@ -59,7 +60,7 @@ if __name__ == "__main__":
 
     years = load_years("../years.txt")
     for year in years:
-        print(f"Loading {year}.csv...", end='\r')
+        print(f"Loading {year}.csv...", end="\r")
         df = pd.read_csv(f"../csv/{year}.csv", encoding="UTF-8")
         print(f"Loaded {year}.csv. {t.elapsed()}")
 
@@ -97,8 +98,8 @@ if __name__ == "__main__":
         df_apply(df, "article", lambda x: remove_stopwords(x))
         print(f"All filler words removed from articles. {t.collection()}")
 
-        print(f"Writing dataframe to {year}_01.csv...", end='\r')
-        df.to_csv(f"../csv/{year}_01.csv", index=False, encoding='UTF-8')
+        print(f"Writing dataframe to {year}_01.csv...", end="\r")
+        df.to_csv(f"../csv/{year}_01.csv", index=False, encoding="UTF-8")
         print(f"Cleaned dataframe written to {year}_01.csv. {t.collection()}")
 
     print("Succesfully cleaned all csv files!")
