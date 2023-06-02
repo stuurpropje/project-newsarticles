@@ -9,6 +9,7 @@
 * [Usage](#usage)
 * [Project Structure](#project-structure)
 * [Project Summary](#project-summary)
+* [Project Video](#project-video)
 * [Acknowledgements](#acknowledgements)
 * [Contact](#contact)
 
@@ -121,6 +122,10 @@ The processing of the dataset was done through several steps:
 - Conducting topic modeling to identify latent themes and topics in the news articles.
 
 For detailed insights and visualizations, refer to the [results.ipynb](/results.ipynb) Jupyter Notebook in the root directory of this repository.
+
+## Project Video
+
+<iframe id="kaltura_player" src="https://api.eu.kaltura.com/p/120/sp/12000/embedIframeJs/uiconf_id/23449960/partner_id/120?iframeembed=true&playerId=kaltura_player&entry_id=0_u6du3tli&flashvars[streamerType]=auto&amp;flashvars[localizationCode]=en_US&amp;flashvars[leadWithHTML5]=true&amp;flashvars[sideBarContainer.plugin]=true&amp;flashvars[sideBarContainer.position]=left&amp;flashvars[sideBarContainer.clickToClose]=true&amp;flashvars[chapters.plugin]=true&amp;flashvars[chapters.layout]=vertical&amp;flashvars[chapters.thumbnailRotator]=false&amp;flashvars[streamSelector.plugin]=true&amp;flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&amp;flashvars[dualScreen.plugin]=true&amp;flashvars[hotspots.plugin]=1&amp;flashvars[Kaltura.addCrossoriginToIframe]=true&amp;&wid=0_cjz2pywu" width="400" height="261" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="Screencast Niels"></iframe>
 
 ## Acknowledgements
 
